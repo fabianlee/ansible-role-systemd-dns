@@ -1,6 +1,11 @@
 ---
-tasks:
-- include_role:
-    name: systemd-dns
+
+- name: include systemd-dns tasks
+  include_role: systemd-dns.yml
   when: ansible_distribution_major_version|int != 16
+
+- name: include resolveconf tasks
+  include_role: resolveconf.yml
+  when: ansible_distribution_major_version|int == 16
+
 

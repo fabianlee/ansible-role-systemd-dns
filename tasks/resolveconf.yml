@@ -1,7 +1,7 @@
 ---
 
 - name: show current dns settings
-  shell: cat etc/resolv.conf | grep nameserver
+  shell: cat /etc/resolv.conf | grep nameserver
 
 - name: Update primary dns server
   become: yes
@@ -21,7 +21,7 @@
   command: resolvconf -u
 
 - name: show current dns settings
-  shell: cat etc/resolv.conf | grep nameserver
+  shell: cat /etc/resolv.conf | grep nameserver
 
 #- name: Restart systemd-resolved service
 #  systemd:

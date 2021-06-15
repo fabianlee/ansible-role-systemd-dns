@@ -9,6 +9,8 @@
 - name: show current dns settings1
   become: yes
   shell: systemd-resolve --status --no-pager | grep 'DNS Servers'
+  register: check_status
+  failed_when: not check_status.rc in [0,1]
 
 - name: Update primary dns server
   become: yes

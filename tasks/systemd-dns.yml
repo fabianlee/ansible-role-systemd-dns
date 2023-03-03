@@ -6,7 +6,7 @@
     state: present
     #update_cache: true
 
-- debug: var: ansible_distribution_version
+- debug: var=ansible_distribution_version
 
 - name: show current dns settings1 for ubuntu 18
   become: yes

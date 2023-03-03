@@ -6,10 +6,20 @@
     state: present
     #update_cache: true
 
-- name: show current dns settings1
+- debug: var: ansible_distribution_version
+
+- name: show current dns settings1 for ubuntu 18
   become: yes
   shell: systemd-resolve --status --no-pager | grep 'DNS Servers'
   register: check_status
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version <= '18'
+  failed_when: not check_status.rc in [0,1]
+
+- name: show current dns settings1 for ubuntu 18+
+  become: yes
+  shell: resolvectl --status --no-pager | grep 'DNS Servers'
+  register: check_status
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version > '18'
   failed_when: not check_status.rc in [0,1]
 
 - name: Update primary dns server
@@ -34,10 +44,4 @@
     state: restarted
     daemon_reload: yes
   when: change_dns_items.changed
-
-- name: show new dns settings2
-  become: yes
-  shell: systemd-resolve --status --no-pager | grep 'DNS Servers'
-  when: change_dns_items.changed
-
 
